@@ -40,7 +40,7 @@ dirs = list.dirs(finaldir,full.names = F, recursive = F)
 for (f in dirs){
   print(f)
   ###get permit vector
-  dfs_sub <- dfs[dfs[obj_id] %in% f, ]
+  dfs_sub <- dfs[which(dfs[[obj_id]] == f), ]
   
   ###read in pre_mosaic
   d <-'tif'
