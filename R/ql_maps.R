@@ -5,6 +5,10 @@
 ##Note 1: rewrote this with terra instead of raster and RSToolbox (deprecated or on its way out)
 ##Note 2: a little bit painful, this might be easier with ggplot2? Something to investigate.
 
+##Note 3: Use terra version 1.7-3, uncomment below to install. Make sure to run RStudio as administrator.
+#src <- 'https://cran.r-project.org/src/contrib/Archive/terra/terra_1.7-3.tar.gz'
+#install.packages(src, repos=NULL, type="source")
+
 library(terra)
 library(tidyverse)
 
@@ -38,11 +42,11 @@ dirs = list.dirs(finaldir,full.names = F, recursive = F)
 for (f in dirs){
   print(f)
   ###get permit vector
-  dfs_sub <- dfs[dfs[obj_id] %in% f, ]
+  dfs_sub <- dfs[dfs[[obj_id]] == f, ]
   
   ###read in pre_mosaic
   d <-'tif'
-  fl <- 'png'
+  fl <- 'png3'
   if (!dir.exists(file.path(finaldir,f,fl))) {dir.create(file.path(finaldir,f,fl))}
   imglist <- list.files(path = file.path(finaldir,f,d), pattern='.tif$') #$ means end of the string
   for (img in imglist){
@@ -59,7 +63,7 @@ for (f in dirs){
     qlname <- file.path(finaldir,f,fl,qa_name)
     
     #Plot title
-    title <- paste0('Timbermark: ',dfs_sub[timber_mark],', ', 'Cutblock: ', dfs_sub[cutblock])
+    title <- paste0('Timbermark: ',dfs_sub[[timber_mark]],', ', 'Cutblock: ', dfs_sub[[cutblock]])
     
     # Plot
     png(qlname,units='in',width=8,height=10.5,res=200) #To open in a new window
@@ -73,9 +77,9 @@ for (f in dirs){
     
     ## Data for text box
     #forest file id, district, disturbance start date, disturbance end date, area_ha, image date, sensor
-    forest_file_id <- dfs_sub[ff_id]
-    dstart <- dfs_sub[disturbance_start]
-    dend <- dfs_sub[disturbance_end]
+    forest_file_id <- dfs_sub[[ff_id]]
+    dstart <- dfs_sub[[disturbance_start]]
+    dend <- dfs_sub[[disturbance_end]]
     area_ha <- round(expanse(dfs_sub,unit="ha"),digits=1)
     img_date <- strsplit(img,split="_",fixed=T)[[1]][[2]]
     sensor <- strsplit(strsplit(img,'_')[[1]][[3]],'.',fixed=T)[[1]][[1]]
