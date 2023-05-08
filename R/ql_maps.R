@@ -2,6 +2,8 @@
 ## a folder of RGB tifs and plots them with a cruise based block and forest reserve 
 ## polygons. 
 
+## Meant to be used in conjunction with geeQuicklooks script (https://github.com/SashaNasonova/geeQuicklooks)
+
 ##Note 1: rewrote this with terra instead of raster and RSToolbox (deprecated or on its way out)
 ##Note 2: a little bit painful, this might be easier with ggplot2? Something to investigate.
 
